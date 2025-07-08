@@ -15,6 +15,7 @@ class _HomepageState extends State<Homepage> {
       appBar: AppBar(
         backgroundColor: Colors.amber[300],
         title: Text("Todo App"),
+        elevation: 0,
       ),
     );
   }
