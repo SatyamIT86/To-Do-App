@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:todo_app/database/database.dart';
 import 'package:todo_app/utils/diaglog_box.dart';
 import 'package:todo_app/utils/todo_tile.dart';
 
@@ -10,17 +12,14 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  final _myBox = Hive.openBox("myBox");
+  ToDoDatabase db = ToDoDatabase();
   final _controller = TextEditingController();
-  List toDoList = [
-    ["Do Code", false],
-    ["Do Activities", false],
-    ["Do marketing", false],
-    ["Do Flutter", true],
-    ["Do Learn Something new", true],
-  ];
+
   void chechboxchanged(bool? value, int index) {
     setState(() {
-      toDoList[index][1] = !toDoList[index][1]; // Update the completion status
+      db.toDoList[index][1] =
+          !db.toDoList[index][1]; // Update the completion status
       // This function will be used to update the state of the todo list
       // when a checkbox is changed.
     });
@@ -28,7 +27,7 @@ class _HomepageState extends State<Homepage> {
 
   void saveNewTask() {
     setState(() {
-      toDoList.add([_controller.text, false]);
+      db.toDoList.add([_controller.text, false]);
       _controller.clear();
     });
     Navigator.of(context).pop();
@@ -51,7 +50,7 @@ class _HomepageState extends State<Homepage> {
 
   void deletetask(int index) {
     setState(() {
-      toDoList.removeAt(index);
+      db.toDoList.removeAt(index);
     });
   }
 
@@ -69,11 +68,11 @@ class _HomepageState extends State<Homepage> {
         child: Icon(Icons.add),
       ),
       body: ListView.builder(
-        itemCount: toDoList.length,
+        itemCount: db.toDoList.length,
         itemBuilder: (context, index) {
           return TodoTile(
-            taskName: toDoList[index][0],
-            taskCompleted: toDoList[index][1],
+            taskName: db.toDoList[index][0],
+            taskCompleted: db.toDoList[index][1],
             onChanged: (value) {
               chechboxchanged(value, index);
             },
