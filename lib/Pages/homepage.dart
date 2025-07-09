@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/utils/diaglog_box.dart';
 import 'package:todo_app/utils/todo_tile.dart';
 
 class Homepage extends StatefulWidget {
@@ -9,6 +10,32 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  List toDoList = [
+    ["Do Code", false],
+    ["Do Activities", false],
+    ["Do marketing", false],
+    ["Do Flutter", true],
+    ["Do Learn Something new", true],
+  ];
+  void chechboxchanged(bool? value, int index) {
+    setState(() {
+      toDoList[index][1] = !toDoList[index][1]; // Update the completion status
+      // This function will be used to update the state of the todo list
+      // when a checkbox is changed.
+    });
+  }
+
+  void createdNewTask() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return DialogBox();
+        // This function will be used to create a new task dialog box.
+        // It will show a dialog box where the user can enter a new task.
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,81 +45,21 @@ class _HomepageState extends State<Homepage> {
         title: Text("Todo App"),
         elevation: 0,
       ),
-      body: ListView(
-        children: [
-          TodoTile(
-            taskName: "Do Code",
-            taskCompleted: true,
+      floatingActionButton: FloatingActionButton(
+        onPressed: createdNewTask,
+        child: Icon(Icons.add),
+      ),
+      body: ListView.builder(
+        itemCount: toDoList.length,
+        itemBuilder: (context, index) {
+          return TodoTile(
+            taskName: toDoList[index][0],
+            taskCompleted: toDoList[index][1],
             onChanged: (value) {
-              setState(() {
-                // Handle checkbox state change
-              });
+              chechboxchanged(value, index);
             },
-          ),
-          TodoTile(
-            taskName: "Do Activities",
-            taskCompleted: false,
-            onChanged: (value) {
-              setState(() {
-                // Handle checkbox state change
-              });
-            },
-          ),
-          TodoTile(
-            taskName: "Do marketing",
-            taskCompleted: false,
-            onChanged: (value) {
-              setState(() {
-                // Handle checkbox state change
-              });
-            },
-          ),
-          TodoTile(
-            taskName: "Do Flutter",
-            taskCompleted: true,
-            onChanged: (value) {
-              setState(() {
-                // Handle checkbox state change
-              });
-            },
-          ),
-          TodoTile(
-            taskName: "Do Learn Something new",
-            taskCompleted: true,
-            onChanged: (value) {
-              setState(() {
-                // Handle checkbox state change
-              });
-            },
-          ),
-          TodoTile(
-            taskName: "Do Learn Something new",
-            taskCompleted: false,
-            onChanged: (value) {
-              setState(() {
-                // Handle checkbox state change
-              });
-            },
-          ),
-          TodoTile(
-            taskName: "Do Learn Something new",
-            taskCompleted: true,
-            onChanged: (value) {
-              setState(() {
-                // Handle checkbox state change
-              });
-            },
-          ),
-          TodoTile(
-            taskName: "Do Learn Something new",
-            taskCompleted: true,
-            onChanged: (value) {
-              setState(() {
-                // Handle checkbox state change
-              });
-            },
-          ),
-        ],
+          );
+        },
       ),
     );
   }
