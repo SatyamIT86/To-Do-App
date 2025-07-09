@@ -12,8 +12,19 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  final _myBox = Hive.openBox("myBox");
+  final _myBox = Hive.box("myBox");
   ToDoDatabase db = ToDoDatabase();
+  @override
+  void initState() {
+    // TODO: implement initState
+    if (_myBox.get("TODOLIST") == null) {
+      db.createInitialData();
+    } else {
+      db.loaddata();
+    }
+    super.initState();
+  }
+
   final _controller = TextEditingController();
 
   void chechboxchanged(bool? value, int index) {

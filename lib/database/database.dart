@@ -13,5 +13,7 @@ class ToDoDatabase {
     toDoList = _myBox.get("TODOLIST");
   }
 
-  void updatedata() {}
+  void updatedata() {
+    _myBox.put("TODOLIST", toDoList);
+  }
 }
