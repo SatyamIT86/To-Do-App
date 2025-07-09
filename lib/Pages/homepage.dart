@@ -10,6 +10,7 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  final _controller = TextEditingController();
   List toDoList = [
     ["Do Code", false],
     ["Do Activities", false],
@@ -25,11 +26,22 @@ class _HomepageState extends State<Homepage> {
     });
   }
 
+  void saveNewTask() {
+    setState(() {
+      toDoList.add([_controller.text, false]);
+    });
+    Navigator.of(context).pop();
+  }
+
   void createdNewTask() {
     showDialog(
       context: context,
       builder: (context) {
-        return DialogBox();
+        return DialogBox(
+          controller: _controller,
+          onSave: saveNewTask,
+          onCancel: () => Navigator.of(context).pop(),
+        );
         // This function will be used to create a new task dialog box.
         // It will show a dialog box where the user can enter a new task.
       },
