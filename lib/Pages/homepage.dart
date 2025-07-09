@@ -29,6 +29,7 @@ class _HomepageState extends State<Homepage> {
   void saveNewTask() {
     setState(() {
       toDoList.add([_controller.text, false]);
+      _controller.clear();
     });
     Navigator.of(context).pop();
   }
@@ -48,13 +49,19 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
+  void deletetask(int index) {
+    setState(() {
+      toDoList.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.yellow[200],
       appBar: AppBar(
         backgroundColor: Colors.amber[300],
-        title: Text("Todo App"),
+        title: Center(child: Text("Todo App")),
         elevation: 0,
       ),
       floatingActionButton: FloatingActionButton(
@@ -70,6 +77,7 @@ class _HomepageState extends State<Homepage> {
             onChanged: (value) {
               chechboxchanged(value, index);
             },
+            deletefunction: (context) => deletetask(index),
           );
         },
       ),
