@@ -34,6 +34,7 @@ class _HomepageState extends State<Homepage> {
       // This function will be used to update the state of the todo list
       // when a checkbox is changed.
     });
+    db.updatedata();
   }
 
   void saveNewTask() {
@@ -42,6 +43,7 @@ class _HomepageState extends State<Homepage> {
       _controller.clear();
     });
     Navigator.of(context).pop();
+    db.updatedata();
   }
 
   void createdNewTask() {
@@ -57,12 +59,14 @@ class _HomepageState extends State<Homepage> {
         // It will show a dialog box where the user can enter a new task.
       },
     );
+    db.updatedata();
   }
 
   void deletetask(int index) {
     setState(() {
       db.toDoList.removeAt(index);
     });
+    db.updatedata();
   }
 
   @override

@@ -4,9 +4,8 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:todo_app/Pages/homepage.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  var box = await Hive.box("myBox");
+  var box = await Hive.openBox("myBox");
   runApp(MyApp());
 }
 
